@@ -1,0 +1,36 @@
+extends ../layout
+
+block content
+  .container.mt-4
+    .row.justify-content-center
+      .col-md-8
+        .card.shadow.mb-4
+          .card-header.bg-primary.text-white
+            h4.mb-0 Create Community
+          .card-body
+            form(method='post', action='/communities/create')
+              input(type='hidden', name='_csrf', value=_csrf)
+              .mb-3
+                label.form-label(for='name') Name
+                input#name.form-control(type='text', name='name', required)
+              .mb-3
+                label.form-label(for='description') Description
+                textarea#description.form-control(name='description', rows='3')
+              .mb-3
+                label.form-label(for='type') Type
+                select#type.form-select(name='type', required)
+                  option(value='') Select type
+                  option(value='landbased') Landbased
+                  option(value='missionbased') Missionbased
+                  option(value='both') Both
+              .mb-3
+                label.form-label(for='mission') Mission
+                input#mission.form-control(type='text', name='mission')
+              .mb-3
+                label.form-label(for='website') Website
+                input#website.form-control(type='url', name='website')
+              .mb-3
+                label.form-label(for='contactEmail') Contact Email
+                input#contactEmail.form-control(type='email', name='contactEmail')
+              button.btn.btn-primary(type='submit') Create Community
+              a.btn.btn-link.ms-2(href='/communities') Cancel

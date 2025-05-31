@@ -1,0 +1,38 @@
+extends ../layout
+
+block content
+  .container.mt-4
+    .row
+      .col
+        .card.shadow.mb-4
+          .card-header.bg-primary.text-white.d-flex.justify-content-between.align-items-center
+            h4.mb-0 Communities
+            if user
+              a.btn.btn-light.btn-sm(href='/communities/create') Add Community
+          .card-body
+            if communities.length
+              table.table.table-hover
+                thead
+                  tr
+                    th Name
+                    th Type
+                    th Members
+                    th Actions
+                tbody
+                  each community in communities
+                    tr
+                      td
+                        a(href=`/communities/${community._id}`) #{ community.name }
+                      td.text-capitalize #{ community.type }
+                      td #{ community.members.length }
+                      td
+                        if user
+                          a.btn.btn-sm.btn-outline-primary(href=`/communities/${community._id}/edit`) Edit
+                          form.d-inline(method='post', action=`/api/communities/${community._id}?_method=DELETE`)
+                            button.btn.btn-sm.btn-outline-danger(type='submit', onclick='return confirm(\'Delete this community?\')') Delete
+                        else
+                          span.text-muted N/A
+            else
+              p.text-muted No communities found.
+
+  // Optionally, add a modal or separate page for creating/editing communities

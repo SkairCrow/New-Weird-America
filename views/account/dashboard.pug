@@ -1,0 +1,95 @@
+extends ../layout
+
+block content
+  .container.mt-4
+    .row
+      .col-md-4
+        .card.shadow.mb-4
+          if user.profile.coverPhoto
+            img.card-img-top(src=user.profile.coverPhoto, alt='Cover Photo', style='height: 150px; object-fit: cover')
+          .card-body.text-center
+            if user.profile.profilePicture
+              img.rounded-circle.mb-2(src=user.profile.profilePicture, alt='Profile Picture', width='100', height='100', style='object-fit: cover; border: 3px solid #fff; margin-top: -70px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); background: #fff')
+            else if user.profile.picture
+              img.rounded-circle.mb-2(src=user.profile.picture, alt='Profile Picture', width='100', height='100', style='object-fit: cover; border: 3px solid #fff; margin-top: -70px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); background: #fff')
+            else
+              img.rounded-circle.mb-2(src=user.gravatar(), alt='Profile Picture', width='100', height='100', style='object-fit: cover; border: 3px solid #fff; margin-top: -70px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); background: #fff')
+            h3.mb-0 #{ user.profile.name }
+            small.text-muted #{ user.email }
+            if user.profile.pronouns
+              .mt-1.text-secondary #{ user.profile.pronouns }
+            if user.profile.bio
+              p.mt-3 #{ user.profile.bio }
+      .col-md-8
+        .card.shadow.mb-4
+          .card-header.bg-primary.text-white
+            h4.mb-0 Profile Details
+          .card-body
+            .row.mb-2
+              .col-sm-4.font-weight-bold.text-right Email:
+              .col-sm-8 #{ user.email }
+            .row.mb-2
+              .col-sm-4.font-weight-bold.text-right Education:
+              .col-sm-8 #{ user.profile.education && user.profile.education.join(', ') }
+            .row.mb-2
+              .col-sm-4.font-weight-bold.text-right Current City:
+              .col-sm-8 #{ user.profile.currentCity }
+            .row.mb-2
+              .col-sm-4.font-weight-bold.text-right Hometown:
+              .col-sm-8 #{ user.profile.hometown }
+            .row.mb-2
+              .col-sm-4.font-weight-bold.text-right Social Links:
+              .col-sm-8
+                if user.profile.socialLinks && user.profile.socialLinks.length
+                  each link in user.profile.socialLinks
+                    a.badge.bg-primary.text-light.mr-1(href=link, target='_blank', rel='noopener') #{ link }
+                else
+                  span.text-muted None
+            .row.mb-2
+              .col-sm-4.font-weight-bold.text-right Skills:
+              .col-sm-8
+                if user.profile.skills && user.profile.skills.length
+                  each skill in user.profile.skills
+                    span.badge.bg-dark.text-light.mr-1 #{ skill }
+                else
+                  span.text-muted None
+            .row.mb-2
+              .col-sm-4.font-weight-bold.text-right Website:
+              .col-sm-8
+                if user.profile.website
+                  a(href=user.profile.website, target='_blank', rel='noopener') #{ user.profile.website }
+                else
+                  span.text-muted None
+            .row.mb-2
+              .col-sm-4.font-weight-bold.text-right Account Created:
+              .col-sm-8 #{ user.createdAt && user.createdAt.toLocaleDateString ? user.createdAt.toLocaleDateString() : user.createdAt }
+            .row.mb-2
+              .col-sm-4.font-weight-bold.text-right Last Updated:
+              .col-sm-8 #{ user.updatedAt && user.updatedAt.toLocaleDateString ? user.updatedAt.toLocaleDateString() : user.updatedAt }
+                a.profile-account-btn(href='/account') Edit Account Details
+    .row
+      .col
+        .card.shadow.mb-4
+          .card-header.bg-primary.text-white
+            h4.mb-0 Dashboard
+          .card-body
+            .dashboard-retro
+              header.dashboard-header
+                h1 Welcome to Your Dashboard
+                p.dashboard-tagline The New Weird America
+              .dashboard-grid
+                section.dashboard-section.profile-overview
+                  h2 Profile Overview
+                  .placeholder [Profile Picture & Info]
+                section.dashboard-section.messages-notifications
+                  h2 Messages & Notifications
+                  .placeholder [No new messages]
+                section.dashboard-section.community-affiliations
+                  h2 Community Affiliations
+                  .placeholder [Your Groups & Forums]
+                section.dashboard-section.events
+                  h2 Events
+                  .placeholder [Upcoming & Hosted Events]
+                section.dashboard-section.contributions
+                  h2 Contributions
+                  .placeholder [Forum Posts, Uploads, Blogs]

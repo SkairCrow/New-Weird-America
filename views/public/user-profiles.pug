@@ -1,0 +1,39 @@
+extends ../layout
+
+block content
+  .container.mt-4
+    .card.shadow.mb-4
+      .card-header.bg-primary.text-white
+        h4.mb-0 User Profiles
+      .card-body
+        .row
+          each user in users
+            .col-md-4.mb-4
+              a(href=`/user-profile/${user._id}`, style='text-decoration: none; color: inherit')
+                .card.h-100.shadow-sm
+                  if user.profile && user.profile.coverPhoto
+                    img.card-img-top(src=user.profile.coverPhoto, alt='Cover Photo', style='height: 120px; object-fit: cover')
+                  .card-body.text-center
+                    if user.profile && user.profile.profilePicture
+                      img.rounded-circle.mb-2(src=user.profile.profilePicture, alt='Profile Picture', width='80', height='80', style='object-fit: cover; border: 2px solid #fff; margin-top: -50px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); background: #fff')
+                    else
+                      img.rounded-circle.mb-2(
+                        src=user.gravatar ? user.gravatar() : 'https://gravatar.com/avatar/00000000000000000000000000000000?s=80&d=retro',
+                        alt='Profile Picture',
+                        width='80',
+                        height='80',
+                        style='object-fit: cover; border: 2px solid #fff; margin-top: -50px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); background: #fff'
+                      )
+                    h5.mb-0 #{ user.profile && user.profile.name ? user.profile.name : 'No Name' }
+                    if user.profile && user.profile.pronouns
+                      .mt-1.text-secondary #{ user.profile.pronouns }
+                    if user.profile && user.profile.bio
+                      p.mt-2.small.text-muted #{ user.profile.bio }
+                    if user.profile && user.profile.skills && user.profile.skills.length
+                      .mt-2
+                        each skill in user.profile.skills
+                          span.badge.bg-dark.text-light.mr-1 #{ skill }
+                    if user.profile && user.profile.currentCity
+                      .mt-2
+                        small.text-muted
+                          | #{ user.profile.currentCity }

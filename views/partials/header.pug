@@ -1,26 +1,93 @@
-nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
-  .container
-    a.navbar-brand(href='/')
-      img.d-inline-block.align-text-top(src='/bootstrap-logo.svg', alt='', width='30', height='24')
-      |
-      | Hackathon Starter
-    button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#navbarColor01', aria-controls='navbarColor01', aria-expanded='false', aria-label='Toggle navigation')
-      span.navbar-toggler-icon
-    #navbarColor01.collapse.navbar-collapse
-      ul.navbar-nav.me-auto.mb-2.mb-lg-0
-        li.nav-item
-          a.nav-link(class=title === 'Home' ? 'active' : '', href='/') Home
-        li.nav-item
-          a.nav-link(class=title === 'AI Examples' ? 'active' : '', href='/ai') AI Examples
-        li.nav-item
-          a.nav-link(class=title === 'API Examples' ? 'active' : '', href='/api') API Examples
-        li.nav-item
-          a.nav-link(class=title === 'Contact' ? 'active' : '', href='/contact') Contact
+nav.navbar.navbar-dark.bg-primary.shadow-sm
+  .container-fluid
+    // Hamburger for small/medium screens
+    button.btn.btn-primary.me-2.d-lg-none(type='button', data-bs-toggle='offcanvas', data-bs-target='#mainNav', aria-controls='mainNav')
+      i.fas.fa-bars.fa-lg
 
-      form.d-flex
-        if !user
-          a.btn.btn-outline-light.me-2(href='/login') Login
-          a.btn.btn-primary(href='/signup') Create Account
-        else
-          a.btn.btn-primary.me-2(href='/account') My Account
-          a.btn.btn-outline-danger(href='/logout') Sign out
+    a.navbar-brand.mx-auto(href='/') New Weird America
+
+    form.d-flex.align-items-center
+      if !user
+        a.btn.btn-outline-light.me-2(href='/login') Login
+        a.btn.btn-primary(href='/signup') Create Account
+      else
+        // Avatar Dropdown
+        .dropdown
+          button#avatarDropdown.btn.btn-primary.dropdown-toggle.p-0.rounded-circle(type='button', data-bs-toggle='dropdown', aria-expanded='false', style='width: 44px; height: 44px')
+            if user.profile && user.profile.profilePicture
+              img.rounded-circle(src=user.profile.profilePicture, alt='Profile', width='44', height='44', style='object-fit: cover')
+            else
+              i.fas.fa-user-circle.fa-2x.text-white
+          ul.dropdown-menu.dropdown-menu-end(aria-labelledby='avatarDropdown')
+            li
+              a.dropdown-item(href='/account') Edit Profile
+            li
+              a.dropdown-item(href='/logout') Logout
+
+// Sidebar: align top with header
+aside.d-none.d-lg-flex.flex-column.align-items-center.bg-light.border-end.position-fixed.h-100(style='width: 90px; z-index: 1040; top: 56px; left: 0; height: calc(100% - 56px)')
+  nav.mt-4
+    ul.nav.flex-column.gap-4
+      li.nav-item.text-center
+        a.nav-link.p-0.d-flex.flex-column.align-items-center(href='/communities', title='Communities')
+          i.fas.fa-users.fa-2x.text-primary
+          span.small.mt-1 Communities
+      li.nav-item.text-center
+        a.nav-link.p-0.d-flex.flex-column.align-items-center(href='#', title='Map')
+          i.fas.fa-map.fa-2x.text-primary
+          span.small.mt-1 Map
+      li.nav-item.text-center
+        a.nav-link.p-0.d-flex.flex-column.align-items-center(href='#', title='Courses')
+          i.fas.fa-graduation-cap.fa-2x.text-primary
+          span.small.mt-1 Courses
+      li.nav-item.text-center
+        a.nav-link.p-0.d-flex.flex-column.align-items-center(href='#', title='Forums')
+          i.fas.fa-comments.fa-2x.text-primary
+          span.small.mt-1 Forums
+      li.nav-item.text-center
+        a.nav-link.p-0.d-flex.flex-column.align-items-center(href='#', title='Events')
+          i.fas.fa-calendar-alt.fa-2x.text-primary
+          span.small.mt-1 Events
+      li.nav-item.text-center
+        a.nav-link.p-0.d-flex.flex-column.align-items-center(href='/user-profiles', title='People')
+          i.fas.fa-user-friends.fa-2x.text-primary
+          span.small.mt-1 People
+      li.nav-item.text-center
+        a.nav-link.p-0.d-flex.flex-column.align-items-center(href='#', title='Exchange')
+          i.fas.fa-exchange-alt.fa-2x.text-primary
+          span.small.mt-1 Exchange
+
+// Offcanvas: align top with header
+#mainNav.offcanvas.offcanvas-start.d-lg-none(style='width: 90px; top: 56px; height: calc(100% - 56px)', tabindex='-1', aria-labelledby='mainNavLabel')
+  .offcanvas-header.px-2.py-2
+    button.btn-close.ms-auto(type='button', data-bs-dismiss='offcanvas', aria-label='Close', style='font-size: 1.2rem')
+  .offcanvas-body.px-0.d-flex.flex-column.align-items-center
+    ul.nav.flex-column.gap-4.mt-3
+      li.nav-item.text-center
+        a.nav-link.p-0.d-flex.flex-column.align-items-center(href='/communities', title='Communities')
+          i.fas.fa-users.fa-2x.text-primary
+          span.small.mt-1 Communities
+      li.nav-item.text-center
+        a.nav-link.p-0.d-flex.flex-column.align-items-center(href='#', title='Map')
+          i.fas.fa-map.fa-2x.text-primary
+          span.small.mt-1 Map
+      li.nav-item.text-center
+        a.nav-link.p-0.d-flex.flex-column.align-items-center(href='#', title='Courses')
+          i.fas.fa-graduation-cap.fa-2x.text-primary
+          span.small.mt-1 Courses
+      li.nav-item.text-center
+        a.nav-link.p-0.d-flex.flex-column.align-items-center(href='#', title='Forums')
+          i.fas.fa-comments.fa-2x.text-primary
+          span.small.mt-1 Forums
+      li.nav-item.text-center
+        a.nav-link.p-0.d-flex.flex-column.align-items-center(href='#', title='Events')
+          i.fas.fa-calendar-alt.fa-2x.text-primary
+          span.small.mt-1 Events
+      li.nav-item.text-center
+        a.nav-link.p-0.d-flex.flex-column.align-items-center(href='/user-profiles', title='People')
+          i.fas.fa-user-friends.fa-2x.text-primary
+          span.small.mt-1 People
+      li.nav-item.text-center
+        a.nav-link.p-0.d-flex.flex-column.align-items-center(href='#', title='Exchange')
+          i.fas.fa-exchange-alt.fa-2x.text-primary
+          span.small.mt-1 Exchange

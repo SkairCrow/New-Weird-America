@@ -178,7 +178,7 @@ app.locals.GOOGLE_ANALYTICS_ID = process.env.GOOGLE_ANALYTICS_ID ? process.env.G
 app.locals.FACEBOOK_PIXEL_ID = process.env.FACEBOOK_PIXEL_ID ? process.env.FACEBOOK_PIXEL_ID : null;
 
 /**
- * Primary app routes.
+ * Primary Auth routes.
  */
 app.get('/', homeController.index);
 app.get('/login', userController.getLogin);
@@ -201,6 +201,18 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.post('/account/logout-everywhere', passportConfig.isAuthenticated, userController.postLogoutEverywhere);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+
+/**
+ * Application routes.
+ */
+const userDashboardRoutes = require('./routes/userDashboard');
+app.use('/dashboard', userDashboardRoutes);
+
+const communityRoutes = require('./routes/community');
+app.use('/communities', communityRoutes);
+
+const publicRoutes = require('./routes/public');
+app.use('/public', publicRoutes);
 
 /**
  * API examples routes.

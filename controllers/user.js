@@ -310,6 +310,30 @@ exports.postUpdateProfile = async (req, res, next) => {
     user.profile.gender = req.body.gender || '';
     user.profile.location = req.body.location || '';
     user.profile.website = req.body.website || '';
+    user.profile.bio = req.body.bio || '';
+    user.profile.education = req.body.education
+      ? req.body.education
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : [];
+    user.profile.currentCity = req.body.currentCity || '';
+    user.profile.hometown = req.body.hometown || '';
+    user.profile.socialLinks = req.body.socialLinks
+      ? req.body.socialLinks
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : [];
+    user.profile.skills = req.body.skills
+      ? req.body.skills
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : [];
+    user.profile.pronouns = req.body.pronouns || '';
+    user.profile.profilePicture = req.body.profilePicture || '';
+    user.profile.coverPhoto = req.body.coverPhoto || '';
     await user.save();
     req.flash('success', { msg: 'Profile information has been updated.' });
     res.redirect('/account');
