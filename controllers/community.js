@@ -55,10 +55,24 @@ exports.getCommunities = async (req, res) => {
 exports.getCommunityById = async (req, res) => {
   try {
     const community = await Community.findById(req.params.id).populate('members.user', 'profile.name email');
-    if (!community) return res.status(404).json({ error: 'Community not found' });
-    res.json(community);
+    if (!community) {
+      return res.status(404).render('community/community', {
+        error: 'Community not found',
+        user: req.user,
+        community: null,
+      });
+    }
+    res.render('community/community', {
+      community,
+      user: req.user,
+      error: null,
+    });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).render('community/community', {
+      error: err.message,
+      user: req.user,
+      community: null,
+    });
   }
 };
 

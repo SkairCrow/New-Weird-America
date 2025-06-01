@@ -1,0 +1,78 @@
+extends ../layout
+
+block content
+  .container.mt-4
+    if error
+      .alert.alert-danger #{ error }
+    else if community
+      .row
+        .col-md-8.offset-md-2
+          .card.shadow.mb-4
+            .card-header.bg-primary.text-white
+              h3.mb-0 #{ community.name }
+            .card-body
+              if community.images && community.images.length
+                img.img-fluid.mb-3(src=community.images[0], alt=community.name, style='max-height: 250px; object-fit: cover; width: 100%')
+              if community.description
+                p.lead #{ community.description }
+              if community.mission
+                p.mt-2
+                  strong Mission:
+                  | #{ community.mission }
+              .row.mb-2
+                .col-sm-4.font-weight-bold.text-right Type:
+                .col-sm-8.text-capitalize #{ community.type }
+              .row.mb-2
+                .col-sm-4.font-weight-bold.text-right Website:
+                .col-sm-8
+                  if community.website
+                    a(href=community.website, target='_blank', rel='noopener') #{ community.website }
+                  else
+                    span.text-muted None
+              .row.mb-2
+                .col-sm-4.font-weight-bold.text-right Contact:
+                .col-sm-8
+                  if community.contactEmail
+                    a(href=`mailto:${community.contactEmail}`) #{ community.contactEmail }
+                  else
+                    span.text-muted None
+              .row.mb-2
+                .col-sm-4.font-weight-bold.text-right Tags:
+                .col-sm-8
+                  if community.tags && community.tags.length
+                    each tag in community.tags
+                      span.badge.bg-dark.text-light.mr-1 #{ tag }
+                  else
+                    span.text-muted None
+              .row.mb-2
+                .col-sm-4.font-weight-bold.text-right Members:
+                .col-sm-8
+                  if community.members && community.members.length
+                    ul.list-unstyled.mb-0
+                      each member in community.members
+                        li
+                          | #{ member.role.charAt(0).toUpperCase() + member.role.slice(1) }
+                          |
+                          | —
+                          | #{ member.user.profile && member.user.profile.name ? member.user.profile.name : member.user.email }
+                  else
+                    span.text-muted No members yet
+              .row.mb-2
+                .col-sm-4.font-weight-bold.text-right Founded:
+                .col-sm-8
+                  if community.foundingDate
+                    | #{ community.foundingDate.toLocaleDateString ? community.foundingDate.toLocaleDateString() : community.foundingDate }
+                  else
+                    span.text-muted Unknown
+              .row.mb-2
+                .col-sm-4.font-weight-bold.text-right Social Links:
+                .col-sm-8
+                  if community.socialLinks && community.socialLinks.length
+                    each link in community.socialLinks
+                      a.badge.bg-primary.text-light.mr-1(href=link, target='_blank', rel='noopener') #{ link }
+                  else
+                    span.text-muted None
+              .mt-3
+                a.btn.btn-outline-primary(href='/communities') ← Back to Communities
+    else
+      .alert.alert-warning Community not found.
