@@ -9,7 +9,7 @@ block content
         .row
           each user in users
             .col-md-4.mb-4
-              a(href=`/user-profile/${user._id}`, style='text-decoration: none; color: inherit')
+              a(href=`/public/user-profile/${user._id}`, style='text-decoration: none; color: inherit')
                 .card.h-100.shadow-sm
                   if user.profile && user.profile.coverPhoto
                     img.card-img-top(src=user.profile.coverPhoto, alt='Cover Photo', style='height: 120px; object-fit: cover')

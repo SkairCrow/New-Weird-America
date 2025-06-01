@@ -37,12 +37,14 @@ exports.getCommunities = async (req, res) => {
     res.render('community/communities', {
       communities,
       user: req.user,
+      csrfToken: req.csrfToken && req.csrfToken(), // Add this line
     });
   } catch (err) {
     res.status(500).render('community/communities', {
       communities: [],
       user: req.user,
       error: err.message,
+      csrfToken: req.csrfToken && req.csrfToken(),
     });
   }
 };
@@ -120,6 +122,30 @@ exports.removeMember = async (req, res) => {
     community.members = community.members.filter((m) => m.user.toString() !== userId);
     await community.save();
     res.json(community);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+/**
+ * Join a community (add current user as member)
+ */
+exports.joinCommunity = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: 'You must be logged in to join a community.' });
+    }
+    const community = await Community.findById(req.params.id);
+    if (!community) return res.status(404).json({ error: 'Community not found' });
+
+    // Prevent duplicate members
+    if (community.members.some((m) => m.user.toString() === req.user._id.toString())) {
+      return res.status(400).json({ error: 'You are already a member of this community.' });
+    }
+
+    community.members.push({ user: req.user._id, role: 'member' });
+    await community.save();
+    res.redirect('/communities');
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

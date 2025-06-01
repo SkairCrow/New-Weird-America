@@ -27,9 +27,13 @@ block content
                       td #{ community.members.length }
                       td
                         if user
-                          a.btn.btn-sm.btn-outline-primary(href=`/communities/${community._id}/edit`) Edit
-                          form.d-inline(method='post', action=`/api/communities/${community._id}?_method=DELETE`)
-                            button.btn.btn-sm.btn-outline-danger(type='submit', onclick='return confirm(\'Delete this community?\')') Delete
+                          - const isMember = community.members.some((m) => m.user && m.user._id.toString() === user._id.toString());
+                          if !isMember
+                            form.d-inline(method='post', action=`/communities/${community._id}/join`)
+                              input(type='hidden', name='_csrf', value=csrfToken)
+                              button.btn.btn-sm.btn-success(type='submit') Join
+                          else
+                            span.text-success Member
                         else
                           span.text-muted N/A
             else

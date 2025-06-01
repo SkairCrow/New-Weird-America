@@ -27,4 +27,7 @@ router.post('/:id/members', passportConfig.isAuthenticated, communityController.
 // Remove a member from a community
 router.delete('/:id/members', passportConfig.isAuthenticated, communityController.removeMember);
 
+// Join a community
+router.post('/:id/join', passportConfig.isAuthenticated, communityController.joinCommunity);
+
 module.exports = router;

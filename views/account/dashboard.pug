@@ -86,7 +86,15 @@ block content
                   .placeholder [No new messages]
                 section.dashboard-section.community-affiliations
                   h2 Community Affiliations
-                  .placeholder [Your Groups & Forums]
+                  if affiliations && affiliations.length
+                    .row
+                      each affiliation in affiliations
+                        .col-md-6.col-lg-4.mb-3
+                          a.card.text-decoration-none(href=`/communities/${affiliation._id}`)
+                            .card-body
+                              h5.card-title.mb-1 #{ affiliation.role.charAt(0).toUpperCase() + affiliation.role.slice(1) } of #{ affiliation.name }
+                  else
+                    .placeholder [Your Groups & Forums]
                 section.dashboard-section.events
                   h2 Events
                   .placeholder [Upcoming & Hosted Events]
